@@ -1,0 +1,688 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>The Ledger — A Capital & Credit Field Guide for VTREI, LLC</title>
+<meta name="description" content="An operating guide for turning VTREI, LLC into a real credit-holding entity — vendor by vendor, quarter by quarter."/>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,500&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+<style>
+/* ============================================================
+   TOKENS
+   ============================================================ */
+:root{
+  --paper:#F1F2ED;
+  --paper-raised:#FBFBF8;
+  --ink:#12181A;
+  --ink-soft:#3E4A45;
+  --ink-mute:#748079;
+  --line:rgba(18,24,26,0.12);
+  --line-strong:rgba(18,24,26,0.22);
+
+  --vault:#1F6F54;
+  --vault-deep:#154E3B;
+  --vault-bg:rgba(31,111,84,0.09);
+  --vault-bg-strong:rgba(31,111,84,0.16);
+
+  --brass:#A9812D;
+  --brass-lt:#C9A653;
+  --brass-bg:rgba(169,129,45,0.10);
+  --brass-bg-strong:rgba(169,129,45,0.18);
+
+  --slate:#3D5A80;
+  --slate-bg:rgba(61,90,128,0.09);
+
+  --rust:#A24936;
+  --rust-bg:rgba(162,73,54,0.09);
+
+  --shadow-sm:0 1px 3px rgba(18,24,26,0.06), 0 1px 2px rgba(18,24,26,0.08);
+  --shadow-md:0 8px 24px rgba(18,24,26,0.08), 0 2px 6px rgba(18,24,26,0.06);
+  --shadow-lg:0 24px 64px rgba(18,24,26,0.14), 0 4px 12px rgba(18,24,26,0.08);
+  --r-sm:6px;
+  --r-md:12px;
+  --r-lg:20px;
+
+  --serif:'Fraunces',Georgia,serif;
+  --sans:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;
+  --mono:'IBM Plex Mono',monospace;
+
+  color-scheme: light;
+}
+
+[data-theme="dark"]{
+  --paper:#12181A;
+  --paper-raised:#1A2225;
+  --ink:#F1F2ED;
+  --ink-soft:#C4CCC7;
+  --ink-mute:#83908A;
+  --line:rgba(241,242,237,0.12);
+  --line-strong:rgba(241,242,237,0.22);
+
+  --vault:#3FA283;
+  --vault-deep:#4CBE99;
+  --vault-bg:rgba(63,162,131,0.14);
+  --vault-bg-strong:rgba(63,162,131,0.22);
+
+  --brass:#D6B25F;
+  --brass-lt:#E6CC85;
+  --brass-bg:rgba(214,178,95,0.13);
+  --brass-bg-strong:rgba(214,178,95,0.22);
+
+  --slate:#7DA0CC;
+  --slate-bg:rgba(125,160,204,0.12);
+
+  --rust:#D08669;
+  --rust-bg:rgba(208,134,105,0.12);
+
+  --shadow-sm:0 1px 3px rgba(0,0,0,0.3);
+  --shadow-md:0 8px 24px rgba(0,0,0,0.35);
+  --shadow-lg:0 24px 64px rgba(0,0,0,0.5);
+  color-scheme: dark;
+}
+
+@media (prefers-reduced-motion: reduce){
+  *{ animation-duration:0.001ms !important; animation-iteration-count:1 !important; transition-duration:0.001ms !important; scroll-behavior:auto !important; }
+}
+
+*,*::before,*::after{ box-sizing:border-box; margin:0; padding:0; }
+html{ scroll-behavior:smooth; }
+body{
+  background:var(--paper); color:var(--ink);
+  font-family:var(--sans); line-height:1.65; font-size:16px;
+  -webkit-font-smoothing:antialiased; overflow-x:hidden;
+  transition:background 0.3s ease, color 0.3s ease;
+}
+::selection{ background:var(--brass-bg-strong); color:var(--ink); }
+
+.wrap{ max-width:760px; margin:0 auto; padding:0 24px; position:relative; z-index:1; }
+img{ max-width:100%; display:block; }
+a{ color:inherit; }
+
+/* Fade-up utility */
+.fx{ animation:fadeUp 0.7s cubic-bezier(0.16,1,0.3,1) both; }
+@keyframes fadeUp{ from{ opacity:0; transform:translateY(18px); } to{ opacity:1; transform:none; } }
+@keyframes fadeIn{ from{ opacity:0; } to{ opacity:1; } }
+@keyframes drift{ 0%,100%{ transform:translate(0,0) rotate(0deg);} 50%{ transform:translate(-2%,2%) rotate(1deg);} }
+
+/* ============================================================
+   MASTHEAD
+   ============================================================ */
+.masthead{
+  position:sticky; top:0; z-index:100;
+  background:var(--paper); border-bottom:1px solid var(--line);
+  backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px);
+  background:color-mix(in srgb, var(--paper) 88%, transparent);
+}
+.masthead-inner{
+  max-width:760px; margin:0 auto; padding:14px 24px;
+  display:flex; align-items:center; justify-content:space-between; gap:12px;
+}
+.masthead-mark{ display:flex; align-items:center; gap:10px; }
+.masthead-mark .dot{ width:8px; height:8px; border-radius:50%; background:var(--vault); box-shadow:0 0 0 3px var(--vault-bg); flex-shrink:0; }
+.masthead-title{ font-family:var(--mono); font-size:0.68rem; letter-spacing:0.18em; text-transform:uppercase; color:var(--ink); font-weight:600; }
+.masthead-sub{ font-family:var(--mono); font-size:0.6rem; letter-spacing:0.1em; color:var(--ink-mute); display:none; }
+.theme-toggle{
+  display:flex; align-items:center; gap:6px; background:var(--paper-raised); border:1px solid var(--line-strong);
+  border-radius:100px; padding:5px 6px; cursor:pointer; font-family:var(--mono); font-size:0.62rem;
+  letter-spacing:0.06em; color:var(--ink-soft); box-shadow:var(--shadow-sm); transition:all 0.2s;
+}
+.theme-toggle:hover{ border-color:var(--brass); }
+.theme-toggle-icon{ width:22px; height:22px; border-radius:50%; display:flex; align-items:center; justify-content:center; background:var(--brass-bg); font-size:0.7rem; }
+
+/* ============================================================
+   HERO
+   ============================================================ */
+.hero{
+  position:relative; padding:56px 0 40px; overflow:hidden;
+}
+.hero::before{
+  content:''; position:absolute; inset:-20% -10%; z-index:-1; pointer-events:none;
+  background:
+    radial-gradient(ellipse 60% 40% at 15% 0%, var(--vault-bg) 0%, transparent 60%),
+    radial-gradient(ellipse 50% 40% at 100% 20%, var(--brass-bg) 0%, transparent 65%);
+  animation:drift 18s ease-in-out infinite;
+}
+.hero-eyebrow{
+  font-family:var(--mono); font-size:0.68rem; letter-spacing:0.24em; text-transform:uppercase;
+  color:var(--vault); margin-bottom:16px; display:flex; align-items:center; gap:10px;
+}
+.hero-eyebrow::before{ content:''; width:20px; height:1px; background:var(--vault); }
+.hero-title{
+  font-family:var(--serif); font-weight:600; font-size:clamp(2.6rem,9vw,4.4rem);
+  line-height:0.98; letter-spacing:-0.01em; color:var(--ink); margin-bottom:20px;
+}
+.hero-title em{ font-style:italic; font-weight:500; color:var(--vault); }
+.hero-dek{
+  font-size:1.08rem; color:var(--ink-soft); max-width:52ch; line-height:1.7; margin-bottom:28px;
+  font-weight:400;
+}
+.hero-byline{
+  display:flex; align-items:center; gap:14px; flex-wrap:wrap; margin-bottom:36px;
+  font-family:var(--mono); font-size:0.72rem; color:var(--ink-mute); letter-spacing:0.02em;
+}
+.hero-byline strong{ color:var(--ink); font-weight:600; }
+.hero-byline .sep{ color:var(--line-strong); }
+
+/* Signature stamp */
+.stamp{
+  position:absolute; top:44px; right:0; width:118px; height:118px;
+  border:2px solid var(--brass); border-radius:50%;
+  display:flex; align-items:center; justify-content:center;
+  transform:rotate(9deg); opacity:0.92; flex-shrink:0;
+  color:var(--brass);
+}
+.stamp-inner{
+  width:96px; height:96px; border-radius:50%; border:1px dashed var(--brass);
+  display:flex; align-items:center; justify-content:center; text-align:center;
+}
+.stamp text{ font-family:var(--mono); }
+@media (max-width:640px){ .stamp{ display:none; } }
+
+/* Quick-facts strip */
+.facts-strip{
+  display:grid; grid-template-columns:repeat(4,1fr); gap:1px;
+  background:var(--line); border:1px solid var(--line); border-radius:var(--r-md);
+  overflow:hidden; box-shadow:var(--shadow-sm);
+}
+.fact{ background:var(--paper-raised); padding:16px 14px; }
+.fact-label{ font-family:var(--mono); font-size:0.58rem; letter-spacing:0.1em; text-transform:uppercase; color:var(--ink-mute); margin-bottom:6px; }
+.fact-value{ font-family:var(--serif); font-size:1.05rem; font-weight:600; color:var(--ink); line-height:1.15; }
+@media (max-width:640px){
+  .facts-strip{ grid-template-columns:repeat(2,1fr); }
+}
+
+/* ============================================================
+   SECTION SCAFFOLDING
+   ============================================================ */
+section{ padding:52px 0; border-top:1px solid var(--line); }
+section:first-of-type{ border-top:none; }
+.kicker{
+  font-family:var(--mono); font-size:0.66rem; letter-spacing:0.22em; text-transform:uppercase;
+  color:var(--brass); margin-bottom:14px; display:flex; align-items:center; gap:12px;
+}
+.kicker::after{ content:''; flex:1; height:1px; background:var(--line); }
+h2{
+  font-family:var(--serif); font-weight:600; font-size:clamp(1.7rem,5vw,2.4rem);
+  line-height:1.12; color:var(--ink); margin-bottom:18px; letter-spacing:-0.01em;
+}
+h3{ font-family:var(--serif); font-weight:600; font-size:1.2rem; color:var(--ink); margin-bottom:8px; }
+p.lead{ font-size:1.05rem; color:var(--ink-soft); line-height:1.75; margin-bottom:18px; }
+p{ color:var(--ink-soft); font-size:0.96rem; line-height:1.75; margin-bottom:14px; }
+p:last-child{ margin-bottom:0; }
+
+.dropcap:first-letter{
+  font-family:var(--serif); font-size:3.4rem; font-weight:600; float:left; line-height:0.8;
+  padding:6px 8px 0 0; color:var(--vault);
+}
+
+/* Pull quote */
+blockquote{
+  font-family:var(--serif); font-style:italic; font-size:1.3rem; line-height:1.5;
+  color:var(--ink); border-left:3px solid var(--brass); padding:4px 0 4px 22px; margin:28px 0;
+}
+
+/* ============================================================
+   TIMELINE COMPARISON (honest expectations)
+   ============================================================ */
+.timeline-grid{ display:flex; flex-direction:column; gap:14px; margin-top:22px; }
+.tl-row{
+  background:var(--paper-raised); border:1px solid var(--line); border-radius:var(--r-md);
+  padding:20px; box-shadow:var(--shadow-sm); transition:box-shadow 0.2s, transform 0.2s;
+}
+.tl-row:hover{ box-shadow:var(--shadow-md); transform:translateY(-2px); }
+.tl-head{ display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom:10px; flex-wrap:wrap; }
+.tl-period{ font-family:var(--mono); font-size:0.72rem; letter-spacing:0.08em; text-transform:uppercase; color:var(--vault); font-weight:600; }
+.tl-badge{
+  font-family:var(--mono); font-size:0.6rem; letter-spacing:0.08em; text-transform:uppercase;
+  padding:3px 10px; border-radius:100px; background:var(--slate-bg); color:var(--slate); border:1px solid var(--line);
+}
+.tl-body{ font-size:0.9rem; color:var(--ink-soft); line-height:1.7; }
+.tl-body strong{ color:var(--ink); }
+
+/* ============================================================
+   CALLOUT BOX
+   ============================================================ */
+.callout{
+  background:linear-gradient(160deg, var(--vault-bg), transparent 70%);
+  border:1px solid var(--line-strong); border-left:4px solid var(--vault);
+  border-radius:var(--r-md); padding:24px; margin:26px 0; box-shadow:var(--shadow-sm);
+}
+.callout .kicker{ margin-bottom:10px; color:var(--vault); }
+.callout .kicker::after{ display:none; }
+.callout p{ margin-bottom:10px; }
+.callout p:last-child{ margin-bottom:0; }
+.callout-verdict{
+  display:inline-flex; align-items:center; gap:8px; font-family:var(--mono); font-weight:600;
+  font-size:0.78rem; letter-spacing:0.04em; color:var(--vault-deep); background:var(--vault-bg-strong);
+  padding:6px 14px; border-radius:100px; margin-bottom:14px;
+}
+[data-theme="dark"] .callout-verdict{ color:var(--vault); }
+
+/* ============================================================
+   NUMBERED SEQUENCE (real ordered process)
+   ============================================================ */
+.sequence{ position:relative; margin-top:28px; }
+.seq-item{ position:relative; padding-left:56px; padding-bottom:34px; }
+.seq-item:last-child{ padding-bottom:0; }
+.seq-item::before{
+  content:''; position:absolute; left:17px; top:38px; bottom:0; width:1px;
+  background:linear-gradient(var(--line-strong), var(--line));
+}
+.seq-item:last-child::before{ display:none; }
+.seq-num{
+  position:absolute; left:0; top:0; width:36px; height:36px; border-radius:50%;
+  background:var(--paper-raised); border:1.5px solid var(--brass); color:var(--brass);
+  font-family:var(--mono); font-weight:600; font-size:0.85rem;
+  display:flex; align-items:center; justify-content:center; box-shadow:var(--shadow-sm); z-index:1;
+}
+.seq-when{ font-family:var(--mono); font-size:0.62rem; letter-spacing:0.1em; text-transform:uppercase; color:var(--ink-mute); margin-bottom:4px; }
+.seq-title{ font-family:var(--serif); font-weight:600; font-size:1.15rem; color:var(--ink); margin-bottom:8px; }
+.seq-body{ font-size:0.92rem; color:var(--ink-soft); line-height:1.72; }
+.seq-body ul{ margin:10px 0 0 0; padding-left:0; list-style:none; display:flex; flex-direction:column; gap:6px; }
+.seq-body li{ padding-left:18px; position:relative; font-size:0.88rem; }
+.seq-body li::before{ content:'—'; position:absolute; left:0; color:var(--brass); }
+
+/* ============================================================
+   DIRECTORY TABLE
+   ============================================================ */
+.dir-table-wrap{ overflow-x:auto; border:1px solid var(--line); border-radius:var(--r-md); box-shadow:var(--shadow-sm); margin-top:20px; -webkit-overflow-scrolling:touch; }
+table{ border-collapse:collapse; width:100%; min-width:600px; background:var(--paper-raised); }
+thead tr{ background:var(--vault-bg); }
+th{ text-align:left; padding:12px 14px; font-family:var(--mono); font-size:0.62rem; letter-spacing:0.08em; text-transform:uppercase; color:var(--ink); border-bottom:1px solid var(--line-strong); white-space:nowrap; }
+td{ padding:12px 14px; border-bottom:1px solid var(--line); font-size:0.84rem; color:var(--ink-soft); vertical-align:top; }
+tbody tr:last-child td{ border-bottom:none; }
+tbody tr:hover td{ background:var(--brass-bg); }
+td strong{ color:var(--ink); }
+
+/* ============================================================
+   FIVE-W SIDEBAR
+   ============================================================ */
+.w-grid{ display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-top:22px; }
+.w-card{ background:var(--paper-raised); border:1px solid var(--line); border-radius:var(--r-md); padding:18px; box-shadow:var(--shadow-sm); }
+.w-letter{ font-family:var(--serif); font-size:1.6rem; font-weight:700; color:var(--brass); line-height:1; margin-bottom:8px; }
+.w-q{ font-family:var(--mono); font-size:0.68rem; color:var(--ink-mute); letter-spacing:0.02em; margin-bottom:8px; text-transform:uppercase; }
+.w-a{ font-size:0.86rem; color:var(--ink-soft); line-height:1.65; }
+@media (max-width:640px){ .w-grid{ grid-template-columns:1fr; } }
+
+/* ============================================================
+   CHECKLIST (this week)
+   ============================================================ */
+.checklist{ list-style:none; display:flex; flex-direction:column; gap:10px; margin-top:20px; }
+.check-item{
+  display:flex; align-items:flex-start; gap:14px; padding:14px 16px; background:var(--paper-raised);
+  border:1px solid var(--line); border-radius:var(--r-md); box-shadow:var(--shadow-sm); transition:all 0.2s;
+}
+.check-item:hover{ border-color:var(--vault); box-shadow:var(--shadow-md); }
+.check-box{
+  width:20px; height:20px; border-radius:5px; border:1.5px solid var(--brass); flex-shrink:0; margin-top:2px;
+  background:var(--brass-bg);
+}
+.check-text{ font-size:0.9rem; color:var(--ink); font-weight:500; line-height:1.5; }
+.check-text span{ display:block; font-size:0.78rem; color:var(--ink-mute); font-weight:400; margin-top:3px; }
+
+/* ============================================================
+   CLOSING / PRESS BLOCK
+   ============================================================ */
+.press-block{
+  background:linear-gradient(150deg, var(--ink) 0%, var(--vault-deep) 130%);
+  color:var(--paper); border-radius:var(--r-lg); padding:40px 28px; margin-top:8px;
+  box-shadow:var(--shadow-lg); position:relative; overflow:hidden;
+}
+[data-theme="dark"] .press-block{ background:linear-gradient(150deg, #0A0F10 0%, var(--vault-deep) 140%); }
+.press-block::before{
+  content:''; position:absolute; top:-40%; right:-20%; width:60%; height:140%;
+  background:radial-gradient(ellipse, rgba(214,178,95,0.18), transparent 65%); pointer-events:none;
+}
+.press-eyebrow{ font-family:var(--mono); font-size:0.66rem; letter-spacing:0.22em; text-transform:uppercase; color:var(--brass-lt); margin-bottom:14px; }
+.press-block h2{ color:#fff; margin-bottom:14px; }
+.press-block p{ color:rgba(255,255,255,0.78); }
+.press-sign{ margin-top:26px; font-family:var(--mono); font-size:0.74rem; color:rgba(255,255,255,0.55); border-top:1px solid rgba(255,255,255,0.16); padding-top:18px; }
+
+/* ============================================================
+   FOOTER
+   ============================================================ */
+footer{ padding:44px 0 60px; border-top:1px solid var(--line); }
+.foot-grid{ display:flex; justify-content:space-between; align-items:flex-end; gap:20px; flex-wrap:wrap; }
+.foot-name{ font-family:var(--serif); font-weight:600; font-size:1.15rem; color:var(--ink); }
+.foot-role{ font-family:var(--mono); font-size:0.66rem; color:var(--ink-mute); letter-spacing:0.06em; margin-top:4px; }
+.foot-contact{ font-family:var(--mono); font-size:0.72rem; color:var(--ink-mute); text-align:right; line-height:1.9; }
+.foot-contact a{ color:var(--vault); text-decoration:none; }
+.foot-contact a:hover{ text-decoration:underline; }
+.foot-legal{ margin-top:24px; padding-top:20px; border-top:1px solid var(--line); font-family:var(--mono); font-size:0.62rem; color:var(--ink-mute); letter-spacing:0.03em; line-height:1.8; }
+
+/* Disclaimer chip */
+.disclaimer{
+  display:flex; gap:10px; align-items:flex-start; background:var(--rust-bg); border:1px solid var(--line-strong);
+  border-radius:var(--r-md); padding:14px 16px; margin-top:24px; font-size:0.82rem; color:var(--ink-soft); line-height:1.6;
+}
+.disclaimer .ic{ color:var(--rust); font-family:var(--mono); font-weight:700; flex-shrink:0; }
+
+/* ── MOBILE (≤ 640px) ── */
+@media (max-width:640px){
+  .wrap{ padding:0 18px; }
+  .hero{ padding:40px 0 32px; }
+  section{ padding:40px 0; }
+  .masthead-inner{ padding:12px 18px; }
+  .press-block{ padding:30px 20px; }
+}
+</style>
+</head>
+<body>
+
+<div class="masthead">
+  <div class="masthead-inner">
+    <div class="masthead-mark">
+      <span class="dot"></span>
+      <span class="masthead-title">The Ledger</span>
+      <span class="masthead-sub">— A VTREI Field Guide</span>
+    </div>
+    <button class="theme-toggle" id="themeToggle" type="button" aria-label="Toggle light and dark mode">
+      <span class="theme-toggle-icon" id="themeIcon">☾</span>
+      <span id="themeLabel">DARK</span>
+    </button>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <!-- HERO -->
+  <div class="hero fx">
+    <div class="stamp">
+      <div class="stamp-inner">
+        <svg viewBox="0 0 100 100" width="100%" height="100%">
+          <text x="50" y="34" text-anchor="middle" font-size="7" letter-spacing="1.5" fill="currentColor">VTREI · LLC</text>
+          <text x="50" y="52" text-anchor="middle" font-size="9" font-weight="700" fill="currentColor">EST.</text>
+          <text x="50" y="64" text-anchor="middle" font-size="9" font-weight="700" fill="currentColor">2020</text>
+          <text x="50" y="80" text-anchor="middle" font-size="6" letter-spacing="1" fill="currentColor">TUCSON, AZ</text>
+        </svg>
+      </div>
+    </div>
+
+    <div class="hero-eyebrow">Issue No. 01 — Capital &amp; Credit</div>
+    <h1 class="hero-title">Turn the LLC<br>from <em>paperwork</em><br>into <em>capital.</em></h1>
+    <p class="hero-dek">A working, step-by-step guide to building real business credit under VTREI, LLC — separate from your personal name, and built to actually hold up when a landlord, a lender, or a dealership asks a second question.</p>
+    <div class="hero-byline">
+      <span>Prepared for <strong>Lamar Myers</strong></span>
+      <span class="sep">/</span>
+      <span>Founder &amp; CEO, VTREI, LLC</span>
+      <span class="sep">/</span>
+      <span>Tucson, AZ</span>
+    </div>
+
+    <div class="facts-strip">
+      <div class="fact"><div class="fact-label">Entity</div><div class="fact-value">VTREI, LLC</div></div>
+      <div class="fact"><div class="fact-label">Founded</div><div class="fact-value">Jul 2020</div></div>
+      <div class="fact"><div class="fact-label">EIN on file</div><div class="fact-value">86-3606031</div></div>
+      <div class="fact"><div class="fact-label">Status</div><div class="fact-value">Pre-revenue</div></div>
+    </div>
+  </div>
+
+  <!-- LEDE -->
+  <section class="fx">
+    <div class="kicker">The Starting Point</div>
+    <p class="lead dropcap">Five years ago you filed the paperwork. That part is already done, and it counts for more than it feels like right now. What VTREI doesn't have yet is a financial history — a track record that banks, bureaus, landlords, and dealerships can read the way they read a person's credit score. That's the entire project from here: give the entity a history.</p>
+    <p>This guide is built around two timelines running side by side. One is the truth about how fast business credit actually moves. The other is what you can put in motion <em>this week</em> so that six months from now, the truth has moved a lot further than it would have if you'd waited.</p>
+  </section>
+
+  <!-- HONEST TIMELINE -->
+  <section class="fx">
+    <div class="kicker">Setting Real Expectations</div>
+    <h2>What's actually possible, and when</h2>
+    <p class="lead">You asked for the apartment, the car, the home, the Airbnb — inside a month or two, on the LLC alone. Here's the honest shape of that timeline, so nothing on this list surprises you later.</p>
+
+    <div class="timeline-grid">
+      <div class="tl-row">
+        <div class="tl-head"><span class="tl-period">Weeks 1 – 4</span><span class="tl-badge">Foundation</span></div>
+        <div class="tl-body">Business bank account, EIN documentation, D-U-N-S number, and your first vendor account can all be live. <strong>No lender will treat the LLC as a stand-alone borrower yet</strong> — there's no history to check.</div>
+      </div>
+      <div class="tl-row">
+        <div class="tl-head"><span class="tl-period">Months 2 – 6</span><span class="tl-badge">First trade lines</span></div>
+        <div class="tl-body">Net-30 vendor accounts start reporting. A secured business credit card can be open and paid down monthly. <strong>An Airbnb booked under the business, or a car lease with a personal guarantee, becomes realistic</strong> — the LLC's name is on it, your signature backs it.</div>
+      </div>
+      <div class="tl-row">
+        <div class="tl-head"><span class="tl-period">Year 1 – 2</span><span class="tl-badge">Real trade history</span></div>
+        <div class="tl-body">A PAYDEX score exists. Business credit unions and regional banks will talk to you about a line of credit tied to the entity. <strong>An apartment lease under the LLC is negotiable with a landlord</strong>, particularly with revenue or a strong guarantor picture behind it.</div>
+      </div>
+      <div class="tl-row">
+        <div class="tl-head"><span class="tl-period">Year 2 – 3+</span><span class="tl-badge">Independent standing</span></div>
+        <div class="tl-body">This is where an LLC can begin to borrow largely on its own history — auto financing, a DSCR or commercial loan for property, vendor terms with no personal guarantee. <strong>This is the "personal credit fades into the background" phase</strong> — and it's earned, not skipped.</div>
+      </div>
+    </div>
+
+    <div class="disclaimer">
+      <span class="ic">NOTE</span>
+      <span>I'm not a lawyer or a financial advisor, and this isn't a loan pre-approval — it's a map. Confirm specifics with a CPA, a business banker, and the actual landlord, dealer, or lender you're working with, since terms vary by state and by institution.</span>
+    </div>
+  </section>
+
+  <!-- $0 TAX RETURN CALLOUT -->
+  <section class="fx">
+    <div class="kicker">The Question You Actually Asked</div>
+    <h2>Should you file, even at $0 in revenue?</h2>
+    <div class="callout">
+      <div class="callout-verdict">✓ Yes — file. Every year, on time.</div>
+      <p>It isn't a flex, and it isn't a confession. It's maintenance. A $0 return does three specific things for you:</p>
+      <p><strong>It keeps VTREI legally alive.</strong> States dissolve LLCs that go quiet on their filings. A dissolved LLC has no credit history to build on top of.</p>
+      <p><strong>It builds the paper trail lenders check.</strong> Consistent filings, even at zero, tell a bank the entity is real and current — the opposite of a shell that appeared last week to dodge personal credit checks.</p>
+      <p><strong>It's required, in most structures, regardless of income.</strong> If VTREI is taxed as a sole proprietorship or partnership, a Schedule C or Form 1065 is likely still due. Confirm the exact form with a CPA — it takes one conversation.</p>
+    </div>
+  </section>
+
+  <!-- SIX-STEP SEQUENCE -->
+  <section class="fx">
+    <div class="kicker">The Sequence</div>
+    <h2>Six moves, in order</h2>
+    <p class="lead">Each step below unlocks the one after it. Skipping ahead — applying for a car lease before the business bank account exists, for instance — is the most common way people stall out at month one.</p>
+
+    <div class="sequence">
+
+      <div class="seq-item">
+        <div class="seq-num">1</div>
+        <div class="seq-when">This week</div>
+        <div class="seq-title">Open a dedicated business bank account</div>
+        <div class="seq-body">Use the EIN, not your SSN, to open it. Nothing downstream works without this — it's the account every vendor, bureau, and future lender will eventually ask to see statements from.
+          <ul>
+            <li>Bring your Articles of Organization, EIN letter, and operating agreement if you have one</li>
+            <li>A local credit union's business banker is often faster and more relationship-minded than a national bank branch</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="seq-item">
+        <div class="seq-num">2</div>
+        <div class="seq-when">Week 1 – 2</div>
+        <div class="seq-title">Register the entity's identity</div>
+        <div class="seq-body">Get a free D-U-N-S number from Dun &amp; Bradstreet — this is how business bureaus recognize VTREI as an entity distinct from you personally. Confirm your Arizona LLC filing is current and in good standing.
+          <ul>
+            <li>D-U-N-S is free; expedited processing is a paid option if you don't want to wait ~30 days</li>
+            <li>Consider a dedicated business address and phone line if you can — it strengthens how "operational" the entity looks to bureaus</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="seq-item">
+        <div class="seq-num">3</div>
+        <div class="seq-when">Week 2 – 4</div>
+        <div class="seq-title">File the $0 return</div>
+        <div class="seq-body">Close the compliance gap from the last five years if there is one, then get current. A CPA can tell you in one sitting exactly what's owed and what isn't.
+        </div>
+      </div>
+
+      <div class="seq-item">
+        <div class="seq-num">4</div>
+        <div class="seq-when">Month 1 – 3</div>
+        <div class="seq-title">Open your first trade lines</div>
+        <div class="seq-body">Net-30 vendor accounts are the fastest legitimate way to start a reportable payment history under the EIN. Buy something small, pay it in full and on time, and it reports.
+          <ul>
+            <li>Uline, Grainger, Quill, and Summa Office Supplies are commonly used starter vendors</li>
+            <li>Pair this with a secured business credit card — Ramp and Divvy are common starting points for young LLCs</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="seq-item">
+        <div class="seq-num">5</div>
+        <div class="seq-when">Month 2 – 4</div>
+        <div class="seq-title">Register with the business bureaus</div>
+        <div class="seq-body">Dun &amp; Bradstreet (PAYDEX), Experian Business, and Equifax Business are where your vendor payments actually accumulate into a score. Your personal bureaus never see this activity — which is exactly the separation you're after.
+        </div>
+      </div>
+
+      <div class="seq-item">
+        <div class="seq-num">6</div>
+        <div class="seq-when">Ongoing, from month 3 on</div>
+        <div class="seq-title">Build the credit union relationship</div>
+        <div class="seq-body">Sit down — in person if you can — with a business banking officer, not the teller line. Ask directly what a young, pre-revenue LLC needs to qualify for a small secured line of credit. Credit unions are more likely to grow with you as the trade history builds.
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <blockquote class="fx">"The five-year-old filing isn't wasted time — it's the entity's birth certificate. Everything from here is teaching the world to trust it."</blockquote>
+
+  <!-- DIRECTORY -->
+  <section class="fx">
+    <div class="kicker">Reference</div>
+    <h2>The starter directory</h2>
+    <p class="lead">A shortlist worth bookmarking — where the first trade lines and registrations actually happen.</p>
+    <div class="dir-table-wrap">
+      <table>
+        <thead>
+          <tr><th>Category</th><th>Where</th><th>What it does</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><strong>Entity ID</strong></td><td>Dun &amp; Bradstreet</td><td>Free D-U-N-S number — required before most bureaus recognize VTREI</td></tr>
+          <tr><td><strong>Net-30 vendor</strong></td><td>Uline / Quill / Grainger</td><td>Small purchase, paid on time, reports as a trade line</td></tr>
+          <tr><td><strong>Business bureau</strong></td><td>D&amp;B PAYDEX</td><td>The core score lenders pull for a business</td></tr>
+          <tr><td><strong>Business bureau</strong></td><td>Experian Business</td><td>Second major reporting bureau for trade credit</td></tr>
+          <tr><td><strong>Business bureau</strong></td><td>Equifax Business</td><td>Third major reporting bureau</td></tr>
+          <tr><td><strong>Secured card</strong></td><td>Ramp / Divvy / local CU</td><td>Reportable revolving credit under the EIN</td></tr>
+          <tr><td><strong>Relationship banking</strong></td><td>Local credit union</td><td>Business banking officer, not a teller — ask for one by name</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- FIVE Ws -->
+  <section class="fx">
+    <div class="kicker">Grounding the Plan</div>
+    <h2>The five W's — answered plainly</h2>
+    <p class="lead">You asked for these, so here they are — pointed at the thing you're actually building, not at everything at once.</p>
+    <div class="w-grid">
+      <div class="w-card">
+        <div class="w-letter">Who</div>
+        <div class="w-q">Who's using this infrastructure?</div>
+        <div class="w-a">You, as Founder &amp; CEO of VTREI — plus every future landlord, lender, and vendor who reads the entity's history instead of your personal one.</div>
+      </div>
+      <div class="w-card">
+        <div class="w-letter">What</div>
+        <div class="w-q">What kind of LLC is this?</div>
+        <div class="w-a">A single-member Arizona LLC, five years registered, EIN active, currently pre-revenue — which just means it's early, not that it's behind.</div>
+      </div>
+      <div class="w-card">
+        <div class="w-letter">When</div>
+        <div class="w-q">When does this start paying off?</div>
+        <div class="w-a">Movement is visible within weeks. Meaningful leverage — leases, loans, larger lines — is a one-to-three-year build. Both are true at once.</div>
+      </div>
+      <div class="w-card">
+        <div class="w-letter">Where</div>
+        <div class="w-q">Where do you start?</div>
+        <div class="w-a">The business bank account, this week. Everything else in this guide sits downstream of that one account.</div>
+      </div>
+      <div class="w-card" style="grid-column:1/-1;">
+        <div class="w-letter">Why</div>
+        <div class="w-q">Why do it in order, instead of all at once?</div>
+        <div class="w-a">Because lenders read sequence as credibility. An entity with a bank account, a filing history, and three months of paid vendor invoices reads as real. The same entity applying for a car lease with none of that reads as risk — and gets a personal-guarantee answer either way. The order isn't bureaucracy for its own sake; it's what actually gets you to "yes" faster.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CHECKLIST -->
+  <section class="fx">
+    <div class="kicker">Do This Now</div>
+    <h2>Before the week is out</h2>
+    <ul class="checklist">
+      <li class="check-item"><span class="check-box"></span><span class="check-text">Book a business banking appointment at a local credit union<span>Bring the Articles of Organization and EIN letter</span></span></li>
+      <li class="check-item"><span class="check-box"></span><span class="check-text">Register for a free D-U-N-S number<span>Takes ~10 minutes to start; standard processing is free</span></span></li>
+      <li class="check-item"><span class="check-box"></span><span class="check-text">Call a CPA about the outstanding $0 filings<span>One conversation confirms exactly what's owed</span></span></li>
+      <li class="check-item"><span class="check-box"></span><span class="check-text">Shortlist two Net-30 vendors to open this month<span>Uline and Quill are the most commonly used starting points</span></span></li>
+    </ul>
+  </section>
+
+  <!-- PRESS BLOCK -->
+  <section class="fx" style="border-top:none; padding-top:8px;">
+    <div class="press-block">
+      <div class="press-eyebrow">For Release — Internal Use</div>
+      <h2>VTREI, LLC begins building a credit history of its own.</h2>
+      <p>Five years after registration, VTREI, LLC has initiated a formal credit-building sequence: dedicated business banking, D-U-N-S registration, current tax filings, and its first vendor trade lines — the foundation required to eventually operate, borrow, and lease independent of its founder's personal credit.</p>
+      <p>The entity's next review point is 90 days out, when its first trade lines are expected to report.</p>
+      <div class="press-sign">— Prepared by The Ledger, a VTREI field guide. Not legal, tax, or lending advice.</div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="fx">
+    <div class="foot-grid">
+      <div>
+        <div class="foot-name">Lamar Myers</div>
+        <div class="foot-role">Founder &amp; CEO — VTREI, LLC — Tucson, Arizona</div>
+      </div>
+      <div class="foot-contact">
+        <div><a href="mailto:director@metaearthinitiative.org">director@metaearthinitiative.org</a></div>
+        <div><a href="tel:5202582714">520-258-2714</a></div>
+        <div>1 Alameda Street, 2nd Floor, Tucson, AZ</div>
+      </div>
+    </div>
+    <div class="foot-legal">THE LEDGER — ISSUE NO. 01 — CAPITAL &amp; CREDIT · VTREI, LLC · EIN 86-3606031 · TUCSON, ARIZONA · © 2026<br>Educational field guide only — not legal, tax, or lending advice. Confirm all steps with a licensed CPA and business banker.</div>
+  </footer>
+
+</div>
+
+<script>
+(function(){
+  var root = document.documentElement;
+  var toggle = document.getElementById('themeToggle');
+  var icon = document.getElementById('themeIcon');
+  var label = document.getElementById('themeLabel');
+
+  function apply(theme){
+    root.setAttribute('data-theme', theme);
+    icon.textContent = theme === 'dark' ? '☀' : '☾';
+    label.textContent = theme === 'dark' ? 'LIGHT' : 'DARK';
+  }
+
+  var saved = null;
+  try { saved = localStorage.getItem('ledger-theme'); } catch(e) {}
+  var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+  apply(saved || (prefersDark ? 'dark' : 'light'));
+
+  toggle.addEventListener('click', function(){
+    var current = root.getAttribute('data-theme');
+    var next = current === 'dark' ? 'light' : 'dark';
+    apply(next);
+    try { localStorage.setItem('ledger-theme', next); } catch(e) {}
+  });
+
+  // Scroll reveal
+  var els = document.querySelectorAll('.fx');
+  if('IntersectionObserver' in window){
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        if(entry.isIntersecting){
+          entry.target.style.animationPlayState = 'running';
+          io.unobserve(entry.target);
+        }
+      });
+    }, { threshold:0.08 });
+    els.forEach(function(el){ el.style.animationPlayState='paused'; io.observe(el); });
+  }
+})();
+</script>
+
+</body>
+</html>
